@@ -18,8 +18,10 @@ import ContactSection from "../../components/ContactSection";
 import ServiceDetailPage from "../../components/ServiceDetailPage";
 import FAQAccordion from "../../components/FAQAccordion";
 import DynamicRichTextWrapper from "../../components/DynamicRichTextWrapper";
+import BadgeBar from "../../components/BadgeBar";
+import TrustBadge from "../../components/TrustBadge";
 
-// Initialize Storyblok with API plugin and components
+// Initialize Storyblok with API plugin and ALL components
 storyblokInit({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_TOKEN,
   use: [apiPlugin],
@@ -38,8 +40,10 @@ storyblokInit({
     service_detail_page: ServiceDetailPage,
     faq_section: FAQAccordion,
     rich_text: DynamicRichTextWrapper,
+    BadgeBar: BadgeBar,
+    badge_bar: BadgeBar,
+    trust_badge: TrustBadge,
     slide_pair: () => null,
-    trust_badge: () => null,
     job_entry: () => null,
     faq_item: () => null,
   },
