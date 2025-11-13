@@ -12,7 +12,7 @@ import JobLog from "./JobLog";
 import ContactSection from "./ContactSection";
 import ServiceDetailPage from "./ServiceDetailPage";
 import FAQAccordion from "./FAQAccordion";
-import DynamicRichTextWrapper from "./DynamicRichTextWrapper"; // <--- NEW WRAPPER
+import DynamicRichTextWrapper from "./DynamicRichTextWrapper";
 import BadgeBar from "./BadgeBar";
 import TrustBadge from "./TrustBadge";
 
@@ -32,16 +32,17 @@ const components = {
   faq_section: FAQAccordion,
   service_detail_page: ServiceDetailPage,
   BadgeBar: BadgeBar,
-  trust_badge: TrustBadge, 
+  badge_bar: BadgeBar,
+  trust_badge: TrustBadge,
 
   // Content Items
   service_card: ServiceCard,
   testimonial: Testimonial,
-  rich_text: DynamicRichTextWrapper, // <--- MAPPED TO THE DYNAMIC WRAPPER
+  Testimonial: Testimonial,
+  rich_text: DynamicRichTextWrapper,
   
   // Child blocks (mapped to null)
-  slide_pair: () => null,    
-  trust_badge: TrustBadge,
+  slide_pair: () => null,
   job_entry: () => null,
   faq_item: () => null,
 };
