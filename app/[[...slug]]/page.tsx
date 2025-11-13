@@ -15,7 +15,7 @@ export default async function StoryblokPage({ params }: { params: Promise<{ slug
   let data;
   try {
     const result = await storyblokApi.get(`cdn/stories/${slugName}`, {
-      version: "draft",
+      version: "published",
     });
     data = result.data;
   } catch (e) {
