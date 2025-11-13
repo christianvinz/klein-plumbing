@@ -63,7 +63,7 @@ export default async function StoryblokPage({ params }: { params: Promise<{ slug
   let data;
   try {
     const result = await storyblokApi.get(`cdn/stories/${slugName}`, {
-      version: "published",
+      version: "draft",
     });
     data = result.data;
   } catch (e) {
