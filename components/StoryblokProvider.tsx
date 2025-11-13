@@ -32,6 +32,7 @@ const components = {
   faq_section: FAQAccordion,
   service_detail_page: ServiceDetailPage,
   BadgeBar: BadgeBar,
+  trust_badge: TrustBadge, 
 
   // Content Items
   service_card: ServiceCard,

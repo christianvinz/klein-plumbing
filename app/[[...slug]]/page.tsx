@@ -39,7 +39,7 @@ storyblokInit({
     faq_section: FAQAccordion,
     rich_text: DynamicRichTextWrapper,
     slide_pair: () => null,
-    trust_badge: () => null,
+    trust_badge: TrustBadge,
     job_entry: () => null,
     faq_item: () => null,
   },
