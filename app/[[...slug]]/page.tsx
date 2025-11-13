@@ -1,6 +1,6 @@
 import { 
   getStoryblokApi, 
-  StoryblokStory 
+  StoryblokStory
 } from "@storyblok/react/rsc";
 
 // Tell Next.js this is a dynamic route
