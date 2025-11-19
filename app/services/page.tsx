@@ -81,12 +81,20 @@ export default function ServicesPage() {
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
             We offer a wide range of plumbing services beyond what's listed here. Contact us to discuss your specific needs.
           </p>
-          <a
-            href="tel:9207283034"
-            className="inline-block bg-[#CEDC00] text-[#333333] px-8 py-3 font-bold uppercase text-sm tracking-wider hover:bg-[#333333] hover:text-white transition-colors rounded"
-          >
-            Call 920-728-3034
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="tel:9207283034"
+              className="inline-block bg-[#CEDC00] text-[#333333] px-8 py-3 font-bold uppercase text-sm tracking-wider hover:bg-[#333333] hover:text-white transition-colors rounded"
+            >
+              Call 920-728-3034
+            </a>
+            <Link
+              href="/#contact"
+              className="inline-block bg-[#333333] text-white px-8 py-3 font-bold uppercase text-sm tracking-wider hover:bg-[#CEDC00] hover:text-[#333333] transition-colors rounded"
+            >
+              Contact Us Online
+            </Link>
+          </div>
         </div>
       </div>
     </div>

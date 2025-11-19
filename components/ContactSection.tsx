@@ -6,8 +6,6 @@ const ContactSection = ({ blok }: any) => {
     <section 
       id="contact" 
       {...storyblokEditable(blok)} 
-      // --- THIS IS THE FIX ---
-      // Added 'scroll-mt-24' to offset for the fixed navbar
       className="py-16 bg-white scroll-mt-24"
     >
       <div className="container mx-auto px-4">
@@ -23,10 +21,10 @@ const ContactSection = ({ blok }: any) => {
               {blok.text || "Whether it's a simple repair or a new build, we're here to help. Contact us today for a free estimate."}
             </p>
 
-            {/* FINALIZED DISCLAIMER */}
+            {/* SIMPLIFIED SERVICE AREA POLICY */}
             <div className="mb-8 p-4 bg-gray-50 border-l-4 border-[#CEDC00] text-sm text-gray-600">
               <p>
-                <strong>Service Area Policy:</strong> Free estimates are available for local projects (Jefferson & Fort Atkinson). 
+                <strong>Service Area Policy:</strong> Free estimates are available for local projects. 
                 For out-of-area jobs, a standard trip charge applies, which is <strong>credited to the completed invoice if the estimate is accepted</strong>.
               </p>
             </div>
@@ -50,7 +48,7 @@ const ContactSection = ({ blok }: any) => {
                 </div>
                 <div>
                   <p className="text-sm font-bold uppercase text-gray-400 tracking-wider">Email</p>
-                  <a href="mailto:service@klein.pluming" className="text-lg font-bold text-[#333333] hover:text-[#CEDC00] transition-colors">
+                  <a href="mailto:service@klein.plumbing" className="text-lg font-bold text-[#333333] hover:text-[#CEDC00] transition-colors">
                     Service@klein.plumbing
                   </a>
                 </div>

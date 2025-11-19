@@ -31,8 +31,8 @@ const Footer = () => {
               <a href="tel:9207283034" className="block text-xl font-bold hover:text-[#CEDC00] transition-colors">
                 📞 920-728-3034
               </a>
-              <a href="mailto:kleinplumbingandseptic@gmail.com" className="block text-gray-300 hover:text-[#CEDC00] transition-colors">
-                ✉️Service@klein.plumbing
+              <a href="mailto:service@klein.plumbing" className="block text-gray-300 hover:text-[#CEDC00] transition-colors">
+                ✉️ Service@klein.plumbing
               </a>
             </div>
           </div>
@@ -43,7 +43,6 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {/* --- THESE ARE THE FIXES --- */}
               <li><Link href="/" className="hover:text-[#CEDC00] transition-colors">Home</Link></li>
               <li><Link href="/#services" className="hover:text-[#CEDC00] transition-colors">Services</Link></li>
               <li><Link href="/#reviews" className="hover:text-[#CEDC00] transition-colors">Reviews</Link></li>
@@ -65,6 +64,8 @@ const Footer = () => {
               <span className="bg-[#444] px-3 py-1 rounded-full">Cambridge</span>
               <span className="bg-[#444] px-3 py-1 rounded-full">Sullivan</span>
               <span className="bg-[#444] px-3 py-1 rounded-full">Helenville</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Oconomowoc</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Pewaukee</span>
             </div>
           </div>
         </div>
