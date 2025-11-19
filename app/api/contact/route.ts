@@ -10,6 +10,8 @@ const DISPOSABLE_EMAIL_DOMAINS = [
   'throwaway.email', 'mailinator.com', 'trashmail.com'
 ];
 
+// TEMPORARILY DISABLED - Will re-enable once reCAPTCHA propagates
+/*
 async function verifyRecaptcha(token: string): Promise<boolean> {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY;
   
@@ -22,12 +24,9 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
   });
 
   const data = await response.json();
-  
-  // reCAPTCHA v3 returns a score from 0.0 to 1.0
-  // 0.0 is very likely a bot, 1.0 is very likely a human
-  // We'll set threshold at 0.5 (you can adjust this)
   return data.success && data.score >= 0.5;
 }
+*/
 
 function isDisposableEmail(email: string): boolean {
   const domain = email.split('@')[1]?.toLowerCase();
@@ -37,7 +36,7 @@ function isDisposableEmail(email: string): boolean {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, message, recaptchaToken } = body;
+    const { name, email, phone, message } = body; // Removed recaptchaToken
 
     // Server-side validation
     if (!name || !email || !message) {
@@ -47,7 +46,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify reCAPTCHA token
+    // TEMPORARILY DISABLED - reCAPTCHA verification
+    // Will re-enable once reCAPTCHA propagates (usually 30-60 minutes)
+    /*
     if (!recaptchaToken) {
       return NextResponse.json(
         { error: 'reCAPTCHA verification required' },
@@ -63,6 +64,7 @@ export async function POST(request: Request) {
         { status: 403 }
       );
     }
+    */
 
     // Check for disposable email
     if (isDisposableEmail(email)) {
@@ -89,10 +91,9 @@ export async function POST(request: Request) {
 
     // Send the email
     const data = await resend.emails.send({
-      // IMPORTANT: Change the 'from' email to service@klein.plumbing once verified with Resend!
       from: 'Klein Plumbing Website <onboarding@resend.dev>', 
-      to: [process.env.CONTACT_EMAIL as string], // Sends to service@klein.plumbing from .env
-      replyTo: email, // Allows easy reply to the customer
+      to: [process.env.CONTACT_EMAIL as string],
+      replyTo: email,
       subject: `NEW LEAD: ${name} (via Website Form)`,
       text: `
         Name: ${name}
@@ -103,13 +104,12 @@ export async function POST(request: Request) {
         ${message}
         
         ---
-        Submitted via website form with verified reCAPTCHA
+        TEMPORARY: Submitted without reCAPTCHA verification (will be re-enabled soon)
       `,
     });
 
     return NextResponse.json(data);
   } catch (error) {
-    // Log the error internally but send a generic server error response
     console.error('Contact form error:', error);
     return NextResponse.json(
       { error: 'Failed to send message due to server error.' }, 

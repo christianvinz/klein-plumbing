@@ -1,31 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
-// Declare the grecaptcha global type
-declare global {
-  interface Window {
-    grecaptcha: any;
-  }
-}
+import { useState } from 'react';
 
 export default function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
-
-  // Load reCAPTCHA script
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`;
-    script.async = true;
-    script.onload = () => setRecaptchaLoaded(true);
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup script on unmount
-      document.body.removeChild(script);
-    };
-  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -46,24 +24,11 @@ export default function ContactForm() {
     delete data.website;
 
     try {
-      // Get reCAPTCHA token
-      if (!recaptchaLoaded || !window.grecaptcha) {
-        throw new Error('reCAPTCHA not loaded');
-      }
-
-      const token = await window.grecaptcha.execute(
-        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-        { action: 'submit' }
-      );
-
-      // Send form data with reCAPTCHA token
+      // Send form data WITHOUT reCAPTCHA (temporarily)
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          recaptchaToken: token,
-        }),
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
@@ -166,13 +131,6 @@ export default function ContactForm() {
           Something went wrong. Please call us at 920-728-3034.
         </p>
       )}
-
-      {/* reCAPTCHA badge notice */}
-      <p className="text-xs text-gray-500 text-center">
-        This site is protected by reCAPTCHA and the Google{' '}
-        <a href="https://policies.google.com/privacy" className="underline">Privacy Policy</a> and{' '}
-        <a href="https://policies.google.com/terms" className="underline">Terms of Service</a> apply.
-      </p>
     </form>
   );
 }
