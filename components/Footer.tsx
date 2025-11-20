@@ -55,6 +55,7 @@ const Footer = () => {
             <h3 className="text-xl font-bold uppercase mb-6 border-b-2 border-[#CEDC00] inline-block pb-2">
               Serving Southeast WI
             </h3>
+            <p className="text-xs text-gray-500 mb-3">Proudly serving within 30 miles of Helenville</p>
             <div className="flex flex-wrap gap-2 text-sm text-gray-400">
               <span className="bg-[#444] px-3 py-1 rounded-full">Jefferson</span>
               <span className="bg-[#444] px-3 py-1 rounded-full">Fort Atkinson</span>
@@ -66,6 +67,18 @@ const Footer = () => {
               <span className="bg-[#444] px-3 py-1 rounded-full">Helenville</span>
               <span className="bg-[#444] px-3 py-1 rounded-full">Oconomowoc</span>
               <span className="bg-[#444] px-3 py-1 rounded-full">Pewaukee</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Waterloo</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Palmyra</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Whitewater</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Rome</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Ixonia</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Concord</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Dousman</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Ashippun</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Lebanon</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Delafield</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Hartland</span>
+              <span className="bg-[#444] px-3 py-1 rounded-full">Waukesha</span>
             </div>
           </div>
         </div>
