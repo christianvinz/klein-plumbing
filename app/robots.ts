@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: 'https://klein.plumbing/sitemap.xml',
-    host: 'https://klein.plumbing.com',
+    host: 'https://klein.plumbing',
   };
 }
