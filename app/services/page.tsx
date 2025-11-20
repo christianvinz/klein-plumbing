@@ -25,7 +25,7 @@ export default function ServicesPage() {
     },
     {
       title: "Water Heater Services",
-      slug: "water-heater-repair",
+      slug: "water-heater-services",
       description: "Expert plumbing services tailored to your needs.",
     },
   ];

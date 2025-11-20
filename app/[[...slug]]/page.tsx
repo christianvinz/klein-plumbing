@@ -5,7 +5,6 @@ import {
   apiPlugin
 } from "@storyblok/react/rsc";
 
-// Import all components
 import Page from "../../components/Page";
 import Hero from "../../components/Hero";
 import Grid from "../../components/Grid";
@@ -21,7 +20,6 @@ import DynamicRichTextWrapper from "../../components/DynamicRichTextWrapper";
 import BadgeBar from "../../components/BadgeBar";
 import TrustBadge from "../../components/TrustBadge";
 
-// Initialize Storyblok with API plugin and ALL components
 storyblokInit({
   accessToken: process.env.NEXT_PUBLIC_STORYBLOK_TOKEN,
   use: [apiPlugin],
@@ -49,30 +47,24 @@ storyblokInit({
   },
 });
 
-// Tell Next.js this is a dynamic route
 export const dynamic = 'force-dynamic';
 
 export default async function StoryblokPage({ params }: { params: Promise<{ slug?: string[] }> }) {
   const resolvedParams = await params;
   const slugName = resolvedParams.slug ? resolvedParams.slug.join("/") : "home";
-
   const storyblokApi = getStoryblokApi();
+  const version = process.env.NODE_ENV === "production" ? "published" : "draft";
   
   let data;
   try {
     const result = await storyblokApi.get(`cdn/stories/${slugName}`, {
-      version: "published",
-      cv: Date.now(), // Cache bust - gets fresh content every time
+      version: version,
+      cv: Date.now(),
     });
     data = result.data;
   } catch (e) {
-    console.error("Storyblok error:", e);
-    return <div>Page not found in Storyblok. Create a story with slug: {slugName}</div>;
+    return <div>Page not found: {slugName}</div>;
   }
 
-  return (
-    <div>
-      <StoryblokStory story={data.story} />
-    </div>
-  );
+  return <div><StoryblokStory story={data.story} /></div>;
 }

@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin/', '/_next/', '/private/'],
       },
     ],
-    sitemap: 'https://klein-plumbing.com/sitemap.xml',
-    host: 'https://klein-plumbing.com',
+    sitemap: 'https://klein.plumbing/sitemap.xml',
+    host: 'https://klein.plumbing.com',
   };
 }

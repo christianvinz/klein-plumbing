@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     'plumbing Southeast Wisconsin',
     'Klein Plumbing',
     'emergency plumber',
-    'water heater repair',
+    'water heater services',
     'drain cleaning',
     'Fort Atkinson plumber',
     'Watertown plumber',
@@ -126,7 +126,7 @@ const localBusinessSchema = {
   "serviceType": [
     "Emergency Plumbing",
     "Drain Cleaning",
-    "Water Heater Repair",
+    "Water Heater Services",
     "Water Heater Installation",
     "Leak Repair",
     "Pipe Repair",
