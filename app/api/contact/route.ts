@@ -99,41 +99,127 @@ export async function POST(request: Request) {
       message,
     });
 
-    // 2. Send email notification to service@klein.plumbing
-    let emailSent = false;
+    // 2. Send notification email to Klein Plumbing
+    let notificationSent = false;
     try {
-      const emailData = await resend.emails.send({
-        from: 'Klein Plumbing Website <onboarding@resend.dev>', 
+      await resend.emails.send({
+        from: 'Klein Plumbing Website <website@klein.plumbing>', 
         to: [process.env.CONTACT_EMAIL as string],
         replyTo: email,
         subject: `NEW LEAD: ${name} (via Website Form)`,
         text: `
-          Name: ${name}
-          Email: ${email || 'Not provided'}
-          Phone: ${phone}
-          
-          Message:
-          ${message || 'No message provided'}
-          
-          ---
-          Lead automatically added to Local Compass
-          Status: ${localCompassResult.success ? 'Synced ✓' : 'Email only (sync failed)'}
+Name: ${name}
+Email: ${email || 'Not provided'}
+Phone: ${phone}
+
+Message:
+${message || 'No message provided'}
+
+---
+Lead automatically added to Local Compass
+Status: ${localCompassResult.success ? 'Synced ✓' : 'Email only (sync failed)'}
         `,
       });
-      emailSent = true;
-      console.log('Email sent:', emailData);
+      notificationSent = true;
+      console.log('Notification email sent to Klein Plumbing');
     } catch (emailError) {
-      console.error('Email sending error:', emailError);
-      // Continue even if email fails - Local Compass has the lead
+      console.error('Notification email error:', emailError);
+    }
+
+    // 3. Send confirmation email to customer (if email provided)
+    let confirmationSent = false;
+    if (email) {
+      try {
+        await resend.emails.send({
+          from: 'Klein Plumbing <noreply@klein.plumbing>',
+          to: [email],
+          subject: 'Thanks for contacting Klein Plumbing!',
+          text: `
+Hi ${name},
+
+Thanks for reaching out to Klein Plumbing! We've received your message and will get back to you shortly.
+
+Here's what you sent us:
+${message ? `Message: ${message}` : ''}
+Phone: ${phone}
+
+If you need immediate assistance, please call us at 920-728-3034.
+
+Thanks,
+Klein Plumbing LLC
+Your trusted plumbing experts serving Jefferson and Southeast Wisconsin
+
+---
+Klein Plumbing LLC
+920-728-3034
+service@klein.plumbing
+klein.plumbing
+          `,
+          html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background-color: #333; color: white; padding: 20px; text-align: center; }
+    .content { background-color: #f9f9f9; padding: 30px; border: 1px solid #ddd; }
+    .footer { background-color: #333; color: #ccc; padding: 20px; text-align: center; font-size: 12px; }
+    .button { background-color: #CEDC00; color: #333; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold; margin: 20px 0; }
+    .highlight { background-color: #fff; padding: 15px; border-left: 4px solid #CEDC00; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Klein Plumbing LLC</h1>
+    </div>
+    
+    <div class="content">
+      <h2>Hi ${name},</h2>
+      
+      <p>Thanks for reaching out to Klein Plumbing! We've received your message and will get back to you shortly.</p>
+      
+      <div class="highlight">
+        <strong>Your Message:</strong><br>
+        ${message ? `<p>${message}</p>` : '<p><em>No message provided</em></p>'}
+        <strong>Phone:</strong> ${phone}
+      </div>
+      
+      <p><strong>Need immediate assistance?</strong></p>
+      <p style="text-align: center;">
+        <a href="tel:920-728-3034" class="button">Call 920-728-3034</a>
+      </p>
+      
+      <p>We're your trusted, family-owned plumbing experts serving Jefferson and Southeast Wisconsin.</p>
+    </div>
+    
+    <div class="footer">
+      <p><strong>Klein Plumbing LLC</strong></p>
+      <p>920-728-3034 | service@klein.plumbing | klein.plumbing</p>
+      <p>Quality work, fair prices.</p>
+    </div>
+  </div>
+</body>
+</html>
+          `,
+        });
+        confirmationSent = true;
+        console.log('Confirmation email sent to customer');
+      } catch (emailError) {
+        console.error('Customer confirmation email error:', emailError);
+        // Don't fail the whole request if confirmation email fails
+      }
     }
 
     // Return success if at least one method worked
-    if (localCompassResult.success || emailSent) {
+    if (localCompassResult.success || notificationSent) {
       return NextResponse.json({
         success: true,
         message: 'Lead received',
         synced: localCompassResult.success,
-        emailSent,
+        notificationSent,
+        confirmationSent,
       });
     } else {
       return NextResponse.json(
