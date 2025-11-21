@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { serviceAreas, services } from '@/lib/seo-utils';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://klein.plumbing.com';
+  const baseUrl = 'https://klein.plumbing';
   const currentDate = new Date();
 
   // Core pages
