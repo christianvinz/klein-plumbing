@@ -1,61 +1,65 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import StoryblokProvider from "../components/StoryblokProvider"; 
+import StoryblokProvider from "../components/StoryblokProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 // Configure the font
-const montserrat = Montserrat({ 
-  subsets: ["latin"], 
-  weight: ["400", "700", "900"]
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://klein-plumbing.com'),
+  metadataBase: new URL("https://klein-plumbing.com"),
   title: {
-    default: "Klein Plumbing, LLC | Licensed Plumber in Jefferson & Southeast Wisconsin",
-    template: '%s | Klein Plumbing'
+    default:
+      "Klein Plumbing, LLC | Licensed Plumber in Jefferson & Southeast Wisconsin",
+    template: "%s | Klein Plumbing",
   },
-  description: "Family-owned plumbing services in Jefferson, Fort Atkinson, Watertown, and Southeast Wisconsin. Repairs, remodeling, and new build. Licensed, trusted plumber. Call 920-728-3034.",
+  description:
+    "Family-owned plumbing services in Jefferson, Fort Atkinson, Watertown, and Southeast Wisconsin. Repairs, remodeling, and new build. Licensed, trusted plumber. Call 920-728-3034.",
   keywords: [
-    'plumber Jefferson WI',
-    'plumbing Southeast Wisconsin',
-    'Klein Plumbing',
-    'emergency plumber',
-    'water heater services',
-    'drain cleaning',
-    'Fort Atkinson plumber',
-    'Watertown plumber',
-    'plumbing repairs',
-    'plumbing remodeling'
+    "plumber Jefferson WI",
+    "plumbing Southeast Wisconsin",
+    "Klein Plumbing",
+    "emergency plumber",
+    "water heater services",
+    "drain cleaning",
+    "Fort Atkinson plumber",
+    "Watertown plumber",
+    "plumbing repairs",
+    "plumbing remodeling",
   ],
-  authors: [{ name: 'Klein Plumbing, LLC' }],
+  authors: [{ name: "Klein Plumbing, LLC" }],
   // Set theme color for browser UI (address bar, tabs)
   themeColor: "#333333",
   // Open Graph metadata for social sharing
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://klein-plumbing.com',
-    siteName: 'Klein Plumbing, LLC',
+    type: "website",
+    locale: "en_US",
+    url: "https://klein-plumbing.com",
+    siteName: "Klein Plumbing, LLC",
     title: "Klein Plumbing | Repairs - Remodeling - New Build",
-    description: "Trusted, family-owned plumbing experts serving Jefferson and Southeast Wisconsin.",
+    description:
+      "Trusted, family-owned plumbing experts serving Jefferson and Southeast Wisconsin.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 1200,
         alt: "Klein Plumbing Logo",
-      }
+      },
     ],
   },
   // Twitter Card metadata
   twitter: {
     card: "summary_large_image",
     title: "Klein Plumbing | Southeast Wisconsin Plumber",
-    description: "Repairs - Remodeling - New Build | Serving Jefferson & Southeast WI",
+    description:
+      "Repairs - Remodeling - New Build | Serving Jefferson & Southeast WI",
     images: ["/og-image.png"],
   },
   robots: {
@@ -64,9 +68,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   // Add your Google Search Console verification code here when ready
@@ -79,51 +83,45 @@ export const metadata: Metadata = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "Plumber",
-  "name": "Klein Plumbing, LLC",
-  "image": "https://klein-plumbing.com/og-image.png",
-  "logo": "https://klein-plumbing.com/og-image.png",
+  name: "Klein Plumbing, LLC",
+  image: "https://klein-plumbing.com/og-image.png",
+  logo: "https://klein-plumbing.com/og-image.png",
   "@id": "https://klein-plumbing.com",
-  "url": "https://klein-plumbing.com",
-  "telephone": "+1-920-728-3034",
-  "email": "Service@klein.plumbing",
-  "priceRange": "$$",
-  "address": {
+  url: "https://klein-plumbing.com",
+  telephone: "+1-920-728-3034",
+  email: "Service@klein.plumbing",
+  priceRange: "$$",
+  address: {
     "@type": "PostalAddress",
-    "addressLocality": "Jefferson",
-    "addressRegion": "WI",
-    "postalCode": "53549",
-    "addressCountry": "US"
+    addressLocality: "Jefferson",
+    addressRegion: "WI",
+    postalCode: "53549",
+    addressCountry: "US",
   },
-  "geo": {
+  geo: {
     "@type": "GeoCoordinates",
-    "latitude": "43.0058",
-    "longitude": "-88.8073"
+    latitude: "43.0058",
+    longitude: "-88.8073",
   },
-  "openingHoursSpecification": [
+  openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
-      "opens": "08:00",
-      "closes": "17:00"
-    }
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "17:00",
+    },
   ],
-  "areaServed": [
-    { "@type": "City", "name": "Jefferson", "addressRegion": "WI" },
-    { "@type": "City", "name": "Fort Atkinson", "addressRegion": "WI" },
-    { "@type": "City", "name": "Watertown", "addressRegion": "WI" },
-    { "@type": "City", "name": "Johnson Creek", "addressRegion": "WI" },
-    { "@type": "City", "name": "Lake Mills", "addressRegion": "WI" },
-    { "@type": "City", "name": "Cambridge", "addressRegion": "WI" },
-    { "@type": "City", "name": "Sullivan", "addressRegion": "WI" },
-    { "@type": "City", "name": "Helenville", "addressRegion": "WI" }
+  areaServed: [
+    { "@type": "City", name: "Jefferson", addressRegion: "WI" },
+    { "@type": "City", name: "Fort Atkinson", addressRegion: "WI" },
+    { "@type": "City", name: "Watertown", addressRegion: "WI" },
+    { "@type": "City", name: "Johnson Creek", addressRegion: "WI" },
+    { "@type": "City", name: "Lake Mills", addressRegion: "WI" },
+    { "@type": "City", name: "Cambridge", addressRegion: "WI" },
+    { "@type": "City", name: "Sullivan", addressRegion: "WI" },
+    { "@type": "City", name: "Helenville", addressRegion: "WI" },
   ],
-  "serviceType": [
+  serviceType: [
     "Emergency Plumbing",
     "Drain Cleaning",
     "Water Heater Services",
@@ -133,10 +131,11 @@ const localBusinessSchema = {
     "Toilet Repair",
     "Faucet Installation",
     "Plumbing Remodeling",
-    "New Construction Plumbing"
+    "New Construction Plumbing",
   ],
-  "slogan": "Your trusted, family-owned plumbing experts serving Jefferson and Southeast Wisconsin. Quality work, fair prices.",
-  "paymentAccepted": "Cash, Check, Credit Card, Debit Card"
+  slogan:
+    "Your trusted, family-owned plumbing experts serving Jefferson and Southeast Wisconsin. Quality work, fair prices.",
+  paymentAccepted: "Cash, Check, Credit Card, Debit Card",
 };
 
 export default function RootLayout({
@@ -148,22 +147,31 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Override theme color for light/dark mode */}
-        <meta name="theme-color" content="#333333" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#333333" media="(prefers-color-scheme: dark)" />
-        
+        <meta
+          name="theme-color"
+          content="#333333"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="#333333"
+          media="(prefers-color-scheme: dark)"
+        />
+
         {/* Local Business Structured Data - Critical for Local SEO */}
-        <Script
+        <script
           id="local-business-schema"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema),
+          }}
         />
       </head>
       <body className={montserrat.className}>
         <Navbar />
-        <StoryblokProvider>
-          {children}
-        </StoryblokProvider>
+        <StoryblokProvider>{children}</StoryblokProvider>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
