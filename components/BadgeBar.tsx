@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useRef, useState, useEffect } from "react";
@@ -5,7 +6,7 @@ import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
 
 const BadgeBar = ({ blok }: any) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  
+
   const [canScroll, setCanScroll] = useState(false);
   const allItems = blok.columns || [];
 
@@ -25,61 +26,75 @@ const BadgeBar = ({ blok }: any) => {
     };
   }, [allItems]);
 
-  // Looping scroll function (unchanged)
+  // Looping scroll function
   const scroll = (direction: "left" | "right") => {
     const container = scrollContainerRef.current;
     if (container) {
-      const atEnd = container.scrollWidth - container.scrollLeft - container.clientWidth < 5;
+      const atEnd =
+        container.scrollWidth - container.scrollLeft - container.clientWidth <
+        5;
       const atStart = container.scrollLeft < 5;
       if (direction === "right") {
         if (atEnd) {
           container.scrollTo({ left: 0, behavior: "smooth" });
         } else {
           const itemWidth = container.firstElementChild?.clientWidth || 128;
-          const gapWidth = 32; 
-          container.scrollBy({ left: itemWidth + gapWidth, behavior: "smooth" });
+          const gapWidth = 32;
+          container.scrollBy({
+            left: itemWidth + gapWidth,
+            behavior: "smooth",
+          });
         }
       } else {
         if (atStart) {
-          container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
+          container.scrollTo({
+            left: container.scrollWidth,
+            behavior: "smooth",
+          });
         } else {
           const itemWidth = container.firstElementChild?.clientWidth || 128;
           const gapWidth = 32;
-          container.scrollBy({ left: -(itemWidth + gapWidth), behavior: "smooth" });
+          container.scrollBy({
+            left: -(itemWidth + gapWidth),
+            behavior: "smooth",
+          });
         }
       }
     }
   };
-  
-  // --- THIS IS THE FIX ---
+
   // Conditionally set the 'justify' class
   const scrollContainerClasses = [
     "flex",
     "overflow-x-auto",
-    "gap-8",
-    "md:gap-12",
+    "gap-6",
+    "md:gap-10",
     "items-center",
     "scroll-smooth",
     "scrollbar-hide",
     "py-4",
-    canScroll ? "justify-start" : "justify-center" // Center if not scrollable
+    canScroll ? "justify-start" : "justify-center", // Center if not scrollable
   ].join(" ");
 
   return (
-    <div 
-      {...storyblokEditable(blok)} 
-      className="py-4" // This is inside the dark wrapper from Page.tsx
+    <div
+      {...storyblokEditable(blok)}
+      /* NUDGED DOWN: 
+         Changed -mt-12 to -mt-8 (mobile) 
+         Changed -mt-16 to -mt-12 (desktop)
+      */
+      className="relative z-20 -mt-8 md:-mt-12 pb-8"
       id={blok.section_id}
     >
       <div className="container mx-auto px-4">
         <div className="relative">
-          <div 
-            ref={scrollContainerRef}
-            className={scrollContainerClasses} // Use our new conditional classes
-          >
+          <div ref={scrollContainerRef} className={scrollContainerClasses}>
             {blok.columns?.map((nestedBlok: any) => (
-              <div key={nestedBlok._uid} className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 relative">
-                <StoryblokComponent blok={nestedBlok} /> 
+              <div
+                key={nestedBlok._uid}
+                className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 relative"
+              >
+                <StoryblokComponent blok={nestedBlok} />
               </div>
             ))}
           </div>

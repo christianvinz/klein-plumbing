@@ -1,45 +1,48 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { storyblokEditable } from "@storyblok/react";
 import Image from "next/image";
-import Link from "next/link"; 
+import Link from "next/link";
 
 const ServiceCard = ({ blok }: any) => {
-  const href = blok.custom_link 
+  const href = blok.custom_link
     ? blok.custom_link
-    : `/services/${blok.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '')}`;
+    : `/services/${blok.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-*|-*$/g, "")}`;
 
   return (
-    <Link 
-        href={href}
-        className="block w-full h-full group"
-    >
-      <div 
-        {...storyblokEditable(blok)} 
-        className="bg-white p-6 rounded-md shadow-md border border-gray-200 hover:shadow-xl transition-all h-full flex flex-col"
+    <Link href={href} className="block w-full h-full group">
+      <div
+        {...storyblokEditable(blok)}
+        /* GLASS CHANGES:
+           1. bg-white/10 -> Lower opacity for better "glass" feel
+           2. border border-white/20 -> Adds the reflective edge
+           3. shadow-xl -> Adds depth
+           4. transition & hover effects -> Makes it interactive
+        */
+        className="bg-white/10 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full hover:shadow-xl transition-all duration-300"
       >
-        {/* Header: Icon and Title on the same line */}
-        <div className="flex items-start gap-4 mb-3 pb-3 border-b border-[#F2F0E9]">
-          
+        {/* Header: Icon and Title */}
+        <div className="flex items-start gap-4 mb-3 pb-3 border-b border-white/10">
           {blok.icon?.filename && (
             <div className="relative w-10 h-10 flex-shrink-0 mt-1">
-              <Image 
-                src={blok.icon.filename} 
-                alt={blok.title} 
+              <Image
+                src={blok.icon.filename}
+                alt={blok.title}
                 fill
                 className="object-contain"
               />
             </div>
           )}
 
-          {/* Title */}
-          <h3 className="text-lg font-black text-[#333333] uppercase tracking-tight leading-tight">
+          <h3 className="text-lg font-black text-black uppercase tracking-tight leading-tight">
             {blok.title}
           </h3>
         </div>
-        
-        {/* --- THIS IS THE FIX for Text Overflow --- */}
-        <p 
-          className="text-[#555555] text-sm leading-relaxed mb-3"
-          // This inline style will force the text clamp
+
+        <p
+          className="text-black text-sm leading-relaxed mb-3"
           style={{
             display: "-webkit-box",
             WebkitBoxOrient: "vertical",
@@ -49,9 +52,8 @@ const ServiceCard = ({ blok }: any) => {
         >
           {blok.summary}
         </p>
-        
-        {/* Read More Link */}
-        <span className="mt-auto block font-bold text-[#CEDC00] uppercase text-xs tracking-widest group-hover:underline">
+
+        <span className="mt-auto block font-bold text-black uppercase text-[10px] tracking-[0.2em] transition-colors duration-300 group-hover:text-[#CEDC00]">
           {blok.custom_link ? "View All Services" : "Read More"} →
         </span>
       </div>

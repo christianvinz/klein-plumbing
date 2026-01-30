@@ -1,43 +1,40 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { storyblokEditable } from "@storyblok/react";
 
 const Hero = ({ blok }: any) => {
   return (
-    <section 
+    <section
       id="home"
-      {...storyblokEditable(blok)} 
-      // --- REMOVED z-20 and border-b ---
-      className="relative h-[600px] flex items-center justify-center text-center text-white bg-[#333333]"
+      {...storyblokEditable(blok)}
+      /* Reduced pb-24 to pb-12 to bring the button and badges closer */
+      className="relative w-full bg-[#333333] pt-12 md:pt-20 pb-12 md:pb-16 px-6 text-center text-white overflow-hidden"
     >
       {/* Background Image Layer */}
       {blok.background_image?.filename && (
-        <div 
+        <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${blok.background_image.filename})` }}
         >
-          {/* Dark Overlay to make text readable */}
-          <div className="absolute inset-0 bg-black/70" /> 
+          <div className="absolute inset-0 bg-black/50" />
         </div>
       )}
 
       {/* Content Layer */}
-      <div className="relative z-10 px-4 max-w-5xl mx-auto">
-        {/* Headline */}
-        <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-2 uppercase drop-shadow-md">
+      <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center">
+        {/* HEADING - Removed 'italic' class */}
+        <h1 className="font-heading text-6xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9] mb-4 drop-shadow-2xl">
           {blok.headline || "Klein Plumbing"}
         </h1>
-        
-        {/* Green Divider Line */}
-        <div className="h-1 w-32 bg-[#CEDC00] mx-auto mb-6"></div>
-        
-        {/* Subheadline */}
-        <p className="text-xl md:text-2xl font-medium tracking-widest uppercase mb-8 drop-shadow-sm">
+
+        <div className="h-1.5 w-24 bg-[#CEDC00] mb-6 shadow-sm"></div>
+
+        <p className="text-lg md:text-2xl font-bold tracking-[0.2em] uppercase mb-10 text-gray-100">
           {blok.subheadline || "Repairs • Remodeling • New Build"}
         </p>
-        
-        {/* Call Button */}
-        <a 
+
+        <a
           href="tel:9207283034"
-          className="inline-block bg-[#CEDC00] text-[#333333] font-bold text-xl px-8 py-4 rounded-none hover:bg-white transition-colors uppercase tracking-wide"
+          className="bg-[#CEDC00] text-black font-black text-xl md:text-2xl px-12 py-5 hover:bg-white transition-all transform hover:scale-105 uppercase shadow-xl"
         >
           Call 920-728-3034
         </a>

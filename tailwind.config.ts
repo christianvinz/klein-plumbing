@@ -8,15 +8,16 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        // Mapping the variables defined in your RootLayout
+        sans: ["var(--font-montserrat)", "sans-serif"],
+        heading: ["var(--font-oswald)", "sans-serif"],
+      },
       colors: {
-        // The "Klein Green" from the business card
-        'klein-green': '#CEDC00',
-        // The "Construction Beige" from the postcard
-        'klein-beige': '#F2F0E9',
-        // The Dark Grey from the banner
-        'klein-dark': '#333333',
-        // A lighter grey for text
-        'klein-text': '#555555',
+        "klein-green": "#CEDC00",
+        "klein-beige": "#F2F0E9",
+        "klein-dark": "#333333",
+        "klein-text": "#555555",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

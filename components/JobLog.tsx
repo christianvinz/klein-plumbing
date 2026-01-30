@@ -8,7 +8,7 @@ const JobLog = ({ blok }: any) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScroll, setCanScroll] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  
+
   const entries = blok.entries || [];
 
   // This useEffect (unchanged)
@@ -20,7 +20,7 @@ const JobLog = ({ blok }: any) => {
         setCanScroll(isScrollable);
       }
     };
-    const timer = setTimeout(checkScrollable, 100); 
+    const timer = setTimeout(checkScrollable, 100);
     window.addEventListener("resize", checkScrollable);
     return () => {
       window.removeEventListener("resize", checkScrollable);
@@ -32,7 +32,9 @@ const JobLog = ({ blok }: any) => {
   const scroll = (direction: "left" | "right") => {
     const container = scrollContainerRef.current;
     if (container) {
-      const atEnd = container.scrollWidth - container.scrollLeft - container.clientWidth < 5;
+      const atEnd =
+        container.scrollWidth - container.scrollLeft - container.clientWidth <
+        5;
       const atStart = container.scrollLeft < 5;
       if (direction === "right") {
         if (atEnd) {
@@ -43,7 +45,10 @@ const JobLog = ({ blok }: any) => {
         }
       } else {
         if (atStart) {
-          container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
+          container.scrollTo({
+            left: container.scrollWidth,
+            behavior: "smooth",
+          });
         } else {
           const itemWidth = container.firstElementChild?.clientWidth || 320;
           container.scrollBy({ left: -(itemWidth + 24), behavior: "smooth" });
@@ -54,23 +59,23 @@ const JobLog = ({ blok }: any) => {
 
   // These navigation functions (unchanged)
   const showNextImage = (e: React.MouseEvent) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     if (selectedIndex === null) return;
     setSelectedIndex((prev) => (prev! + 1) % entries.length);
   };
 
   const showPrevImage = (e: React.MouseEvent) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     if (selectedIndex === null) return;
     setSelectedIndex((prev) => (prev! - 1 + entries.length) % entries.length);
   };
 
   // The main component JSX (unchanged)
   return (
-    <section 
-      {...storyblokEditable(blok)} 
+    <section
+      {...storyblokEditable(blok)}
       id={blok.section_id}
-      className="py-16 bg-[#F2F0E9] border-t-4 border-[#333333] scroll-mt-24"
+      className="py-16 bg-transparent border-t-4 border-[#333333] scroll-mt-24"
     >
       <div className="container mx-auto px-4">
         {/* Header (unchanged) */}
@@ -83,7 +88,7 @@ const JobLog = ({ blok }: any) => {
 
         {/* Carousel Grid (unchanged) */}
         <div className="relative">
-          <div 
+          <div
             ref={scrollContainerRef}
             className="flex overflow-x-auto gap-6 mb-8 pb-4 scroll-smooth scrollbar-hide"
           >
@@ -91,7 +96,7 @@ const JobLog = ({ blok }: any) => {
               <div
                 key={item._uid}
                 className="bg-white shadow-lg border border-gray-300 p-4 hover:shadow-xl transition-all group flex-shrink-0 w-80 md:w-96 cursor-pointer"
-                onClick={() => setSelectedIndex(index)} 
+                onClick={() => setSelectedIndex(index)}
               >
                 {/* Photo (unchanged) */}
                 {item.image?.filename && (
@@ -120,8 +125,18 @@ const JobLog = ({ blok }: any) => {
           {/* Carousel Arrows (unchanged) */}
           {canScroll && (
             <div className="flex items-center justify-center gap-4 mt-8">
-              <button onClick={() => scroll("left")} className="bg-[#333333] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl hover:bg-[#CEDC00] hover:text-black transition-colors shadow-lg">←</button>
-              <button onClick={() => scroll("right")} className="bg-[#333333] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl hover:bg-[#CEDC00] hover:text-black transition-colors shadow-lg">→</button>
+              <button
+                onClick={() => scroll("left")}
+                className="bg-[#333333] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl hover:bg-[#CEDC00] hover:text-black transition-colors shadow-lg"
+              >
+                ←
+              </button>
+              <button
+                onClick={() => scroll("right")}
+                className="bg-[#333333] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl hover:bg-[#CEDC00] hover:text-black transition-colors shadow-lg"
+              >
+                →
+              </button>
             </div>
           )}
         </div>
@@ -130,20 +145,20 @@ const JobLog = ({ blok }: any) => {
       {/* --- STYLED LIGHTBOX MODAL --- */}
       {/* This is the only part that has changed */}
       {selectedIndex !== null && (
-        <div 
+        <div
           className="fixed inset-0 bg-[#F2F0E9] bg-opacity-95 z-50 flex justify-center items-center p-4 backdrop-blur-sm"
           onClick={() => setSelectedIndex(null)} // Click overlay to close
         >
           {/* Close Button (Styled for light background) */}
-          <button 
+          <button
             className="absolute top-4 right-4 text-[#333333] text-5xl font-bold z-[52] hover:opacity-70"
             onClick={() => setSelectedIndex(null)}
           >
             &times;
           </button>
-          
+
           {/* Prev Button (Styled for light background) */}
-          <button 
+          <button
             className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-[#333333] bg-white bg-opacity-50 p-2 md:p-4 rounded-full text-3xl md:text-5xl z-[52] hover:bg-opacity-100"
             onClick={showPrevImage}
           >
@@ -151,21 +166,21 @@ const JobLog = ({ blok }: any) => {
           </button>
 
           {/* Image Container (Styled with border and shadow) */}
-          <div 
+          <div
             className="relative w-auto h-auto max-w-full max-h-[90vh] border-4 border-[#333333] rounded-lg shadow-2xl overflow-hidden"
-            onClick={(e) => e.stopPropagation()} 
+            onClick={(e) => e.stopPropagation()}
           >
-            <Image 
-              src={entries[selectedIndex].image.filename} 
+            <Image
+              src={entries[selectedIndex].image.filename}
               alt="Enlarged job photo"
-              width={1200} 
+              width={1200}
               height={1200}
               className="object-contain w-auto h-auto max-w-full max-h-[90vh]"
             />
           </div>
 
           {/* Next Button (Styled for light background) */}
-          <button 
+          <button
             className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-[#333333] bg-white bg-opacity-50 p-2 md:p-4 rounded-full text-3xl md:text-5xl z-[52] hover:bg-opacity-100"
             onClick={showNextImage}
           >

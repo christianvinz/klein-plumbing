@@ -1,37 +1,48 @@
 "use client";
 
-import { storyblokEditable } from "@storyblok/react";
+import { storyblokEditable, SbBlokData } from "@storyblok/react";
 
-const Testimonial = ({ blok }: any) => {
-  // --- FIX ---
-  // Changed `blok.stars` to `parseInt(blok.stars, 10)`
-  // This converts the string "5" into the number 5.
-  const starCount = parseInt(blok.stars, 10) || 5;
-  const stars = Array(starCount).fill("★");
+// interface to solve the 'any' and 'Index signature' errors
+interface TestimonialBlok extends SbBlokData {
+  stars: string | number;
+  quote: string;
+  name: string;
+}
+
+const Testimonial = ({ blok }: { blok: TestimonialBlok }) => {
+  // Solve the unescaped entities error using &quot;
+  const starCount =
+    typeof blok.stars === "string" ? parseInt(blok.stars, 10) : blok.stars || 5;
+
+  // Use a simple array to solve 'unused variables' error
+  const starsArray = Array.from({ length: starCount as number });
 
   return (
     <div
       {...storyblokEditable(blok)}
-      className="bg-white p-6 rounded-lg shadow-lg border border-gray-100 flex flex-col justify-between h-full hover:shadow-xl transition-shadow"
+      className="bg-white/20 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full hover:shadow-xl transition-all duration-300"
     >
-      {/* Stars */}
-      <div className="text-yellow-400 text-xl mb-3 tracking-wide">
-        {stars.join("")}
+      <div className="text-[#CEDC00] text-2xl mb-4 flex gap-0.5">
+        {starsArray.map((_, i) => (
+          <span key={i}>★</span>
+        ))}
       </div>
 
-      {/* Quote - with line clamping for very long quotes */}
-      <p className="text-gray-700 italic text-sm md:text-base mb-4 leading-relaxed flex-grow">
-        "{blok.quote}"
+      <p className="text-[#333333] italic text-lg mb-8 leading-relaxed grow">
+        &quot;{blok.quote}&quot;
       </p>
 
-      {/* Author & Google Badge */}
-      <div className="flex items-center gap-3 mt-auto pt-4 border-t border-gray-100">
-        <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
-          {blok.name.charAt(0)}
+      <div className="flex items-center gap-4 mt-auto pt-6 border-t border-gray-50">
+        <div className="w-12 h-12 bg-[#333333] rounded-full flex items-center justify-center text-[#CEDC00] font-black text-xl">
+          {blok.name?.charAt(0) || "K"}
         </div>
         <div>
-          <p className="font-bold text-gray-900 text-sm">{blok.name}</p>
-          <p className="text-xs text-gray-500 uppercase tracking-wide">Google Review</p>
+          <p className="font-black text-[#333333] text-base leading-none mb-1">
+            {blok.name}
+          </p>
+          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">
+            Verified Google Review
+          </p>
         </div>
       </div>
     </div>

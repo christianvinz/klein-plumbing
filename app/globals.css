@@ -1,49 +1,67 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --nav-h: 72px;
+  --nav-h-md: 88px;
+  --brand: #333333;
+  --accent: #cedc00;
+  /* Match the industrial dark color */
+  --bg-dark: #1a1a1a;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  body {
+    /* CHANGED: Removed bg-slate-50. 
+       Setting the body to dark ensures no white "scalp" appears 
+       behind the transparent navbar.
+    */
+    @apply bg-[#1a1a1a] text-white;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  /* Map the Next.js Font Variables to Tailwind-ready classes */
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-heading {
+    font-family: var(--font-oswald), sans-serif;
+  }
+
+  p,
+  body,
+  .font-sans {
+    font-family: var(--font-montserrat), sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* --- ADD YOUR UTILITIES HERE --- */
 @layer utilities {
-  /* Hides scrollbar */
-  .scrollbar-hide {
-    /* Firefox */
-    scrollbar-width: none;
-    /* IE and Edge */
-    -ms-overflow-style: none;
+  .glass-layer {
+    /* Updated for dark mode support */
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
   }
+
+  @keyframes slow-float {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(20px, -15px) scale(1.03);
+    }
+  }
+
+  .animate-slow-float {
+    animation: slow-float 18s ease-in-out infinite;
+  }
+
+  /* Custom utility to hide scrollbars for the BadgeBar */
   .scrollbar-hide::-webkit-scrollbar {
-    /* Chrome, Safari, Opera */
     display: none;
   }
-
-  /* Fix for text overflow on service cards */
-  .text-clamp-3 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

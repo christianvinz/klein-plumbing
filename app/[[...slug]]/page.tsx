@@ -1,8 +1,8 @@
-import { 
-  getStoryblokApi, 
+import {
+  getStoryblokApi,
   StoryblokStory,
   storyblokInit,
-  apiPlugin
+  apiPlugin,
 } from "@storyblok/react/rsc";
 
 import Page from "../../components/Page";
@@ -47,24 +47,41 @@ storyblokInit({
   },
 });
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
-export default async function StoryblokPage({ params }: { params: Promise<{ slug?: string[] }> }) {
+/** * Define the Cache Version outside the component to keep the render pure.
+ * This resolves the react-hooks/purity error.
+ */
+const STORYBLOK_CV = Date.now();
+
+export default async function StoryblokPage({
+  params,
+}: {
+  params: Promise<{ slug?: string[] }>;
+}) {
   const resolvedParams = await params;
   const slugName = resolvedParams.slug ? resolvedParams.slug.join("/") : "home";
   const storyblokApi = getStoryblokApi();
   const version = process.env.NODE_ENV === "production" ? "published" : "draft";
-  
+
   let data;
   try {
     const result = await storyblokApi.get(`cdn/stories/${slugName}`, {
       version: version,
-      cv: Date.now(),
+      cv: STORYBLOK_CV,
     });
     data = result.data;
-  } catch (e) {
+  } catch {
+    /**
+     * Variable 'e' removed to resolve @typescript-eslint/no-unused-vars.
+     * We return a friendly 404 message if the slug doesn't exist.
+     */
     return <div>Page not found: {slugName}</div>;
   }
 
-  return <div><StoryblokStory story={data.story} /></div>;
+  return (
+    <div>
+      <StoryblokStory story={data.story} />
+    </div>
+  );
 }

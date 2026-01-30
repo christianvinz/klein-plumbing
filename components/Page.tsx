@@ -1,64 +1,90 @@
+// components/Page.tsx
 import { StoryblokServerComponent } from "@storyblok/react/rsc";
 
-const Page = ({ blok }: any) => {
-  // --- This new logic groups the Hero and BadgeBar ---
-  const groupedBody = [];
-  let i = 0;
-  while (i < blok.body.length) {
-    const currentBlok = blok.body[i];
-    const isHero = currentBlok.component === 'hero' || currentBlok.component === 'Hero';
-    
-    // Look ahead to see if the next component is a BadgeBar
-    const nextBlok = blok.body[i + 1];
-    const isNextBadgeBar = nextBlok && (nextBlok.component === 'BadgeBar');
-    
-    if (isHero && isNextBadgeBar) {
-      // Found the group! Combine them.
-      groupedBody.push({
-        _uid: currentBlok._uid + nextBlok._uid, // Create a unique key
-        isGroup: true,
-        bloks: [currentBlok, nextBlok]
-      });
-      i += 2; // Skip both components
-    } else {
-      // Not a group, just push the single component
-      groupedBody.push({
-        _uid: currentBlok._uid,
-        isGroup: false,
-        bloks: [currentBlok]
-      });
-      i += 1; // Go to the next component
-    }
-  }
-  // --- End of new logic ---
+/**
+ * Minimal, safe Storyblok block shape.
+ * We only type what this component actually uses.
+ */
+type StoryblokBlock = {
+  _uid: string;
+  component: string;
+};
 
-  // Now, we render the new `groupedBody`
+/**
+ * Page-level blok passed from Storyblok
+ */
+type PageBlok = {
+  body?: StoryblokBlock[];
+};
+
+type PageProps = {
+  blok: PageBlok;
+};
+
+type GroupedBlock = {
+  _uid: string;
+  isGroup: boolean;
+  blocks: StoryblokBlock[];
+};
+
+const Page = ({ blok }: PageProps) => {
+  const body: StoryblokBlock[] = Array.isArray(blok.body) ? blok.body : [];
+
+  const groupedBody: GroupedBlock[] = [];
+  let i = 0;
+
+  while (i < body.length) {
+    const currentBlock = body[i];
+    const nextBlock = body[i + 1];
+
+    const isHero =
+      currentBlock.component === "hero" || currentBlock.component === "Hero";
+
+    const isNextBadgeBar = nextBlock?.component === "BadgeBar";
+
+    if (isHero && isNextBadgeBar) {
+      groupedBody.push({
+        _uid: `${currentBlock._uid}-${nextBlock._uid}`,
+        isGroup: true,
+        blocks: [currentBlock, nextBlock],
+      });
+      i += 2;
+      continue;
+    }
+
+    groupedBody.push({
+      _uid: currentBlock._uid,
+      isGroup: false,
+      blocks: [currentBlock],
+    });
+    i += 1;
+  }
+
   return (
     <main className="px-0">
-      {groupedBody.map((group: any) => {
+      {groupedBody.map((group) => {
         if (group.isGroup) {
-          // --- This is our new wrapper for Hero + BadgeBar ---
+          const [heroBlock, badgeBlock] = group.blocks;
+
           return (
-            <div key={group._uid} className="bg-[#333333]">
-              <StoryblokServerComponent blok={group.bloks[0]} /> {/* Renders Hero */}
-              <StoryblokServerComponent blok={group.bloks[1]} /> {/* Renders BadgeBar */}
-            </div>
+            <section key={group._uid} className="bg-[#333333]">
+              <StoryblokServerComponent blok={heroBlock} />
+              <StoryblokServerComponent blok={badgeBlock} />
+            </section>
           );
         }
-        
-        // This is a regular component
-        const nestedBlok = group.bloks[0];
-        // Check if it's a hero that *wasn't* followed by a badge bar
-        const isStandaloneHero = nestedBlok.component === "hero" || nestedBlok.component === "Hero";
-        
+
+        const block = group.blocks[0];
+        const isStandaloneHero =
+          block.component === "hero" || block.component === "Hero";
+
         return (
-          <div 
-            key={nestedBlok._uid} 
-            // Add padding to everything *except* our standalone hero
-            className={isStandaloneHero ? "" : "py-4 md:py-8"} 
+          <section
+            key={block._uid}
+            className={isStandaloneHero ? "" : "py-2 md:py-4"}
           >
-            <StoryblokServerComponent blok={nestedBlok} />
-          </div>
+            <StoryblokServerComponent blok={block} />
+          </section>
         );
       })}
     </main>
