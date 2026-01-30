@@ -9,7 +9,7 @@ const Hero = ({ blok }: any) => {
       /* Reduced pb-24 to pb-12 to bring the button and badges closer */
       className="relative w-full bg-[#333333] pt-12 md:pt-20 pb-12 md:pb-16 px-6 text-center text-white overflow-hidden"
     >
-      {/* BACKGROUND IMAGE LAYER */}
+      {/* 1. THE IMAGE LAYER */}
       {blok.background_image?.filename && (
         <div
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat grayscale brightness-[0.35]"
@@ -20,10 +20,11 @@ const Hero = ({ blok }: any) => {
                 : `https:${blok.background_image.filename}`
             })`,
           }}
-        >
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
+        />
       )}
+
+      {/* 2. THE TINT LAYER (Outside the image div to ensure it always shows) */}
+      <div className="absolute inset-0 bg-[#333333]/60 z-0" />
 
       {/* Content Layer */}
       <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center">
