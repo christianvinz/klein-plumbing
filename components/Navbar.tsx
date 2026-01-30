@@ -88,14 +88,58 @@ const Navbar = () => {
 
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-white text-2xl"
+            className="lg:hidden text-white text-3xl focus:outline-none"
+            aria-label="Toggle Menu"
           >
             {isMobileMenuOpen ? "✕" : "☰"}
           </button>
         </div>
       </div>
 
-      {/* ... Mobile Menu (keep your current implementation) ... */}
+      {/* MOBILE MENU - Fixed Logic */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-[#333333] border-t border-white/10 p-6 lg:hidden flex flex-col gap-6 shadow-2xl animate-in fade-in slide-in-from-top-4">
+          {[
+            "Home",
+            "Services",
+            "Areas",
+            "Reviews",
+            "FAQ",
+            "Job Log",
+            "Contact",
+          ].map((item) => (
+            <Link
+              key={item}
+              href={
+                item === "Home"
+                  ? "/"
+                  : item === "Areas"
+                    ? "/service-areas"
+                    : `/#${item.toLowerCase().replace(" ", "")}`
+              }
+              className="text-white text-lg font-bold uppercase border-b border-white/5 pb-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {item}
+            </Link>
+          ))}
+          <div className="flex flex-col gap-4 mt-2">
+            <Link
+              href="/#contact"
+              className="bg-[#CEDC00] text-[#333333] px-6 py-4 font-black uppercase text-center text-lg"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Get Free Estimate
+            </Link>
+            <a
+              href="tel:9207283034"
+              className="text-white text-center font-bold text-lg border border-white/20 py-3"
+            >
+              Call 920-728-3034
+            </a>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
