@@ -9,11 +9,17 @@ const Hero = ({ blok }: any) => {
       /* Reduced pb-24 to pb-12 to bring the button and badges closer */
       className="relative w-full bg-[#333333] pt-12 md:pt-20 pb-12 md:pb-16 px-6 text-center text-white overflow-hidden"
     >
-      {/* Background Image Layer */}
+      {/* BACKGROUND IMAGE LAYER */}
       {blok.background_image?.filename && (
         <div
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${blok.background_image.filename})` }}
+          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat grayscale brightness-[0.35]"
+          style={{
+            backgroundImage: `url(${
+              blok.background_image.filename.startsWith("http")
+                ? blok.background_image.filename
+                : `https:${blok.background_image.filename}`
+            })`,
+          }}
         >
           <div className="absolute inset-0 bg-black/50" />
         </div>
