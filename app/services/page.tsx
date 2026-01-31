@@ -48,29 +48,34 @@ export default function ServicesPage() {
   // Hardcoded list of services - update this when you add new services
   const services = [
     {
-      title: "Remodeling & New Construction Services",
+      title: "Remodeling & New Construction",
       slug: "remodeling-new-construction",
-      description: "Expert plumbing services tailored to your needs.",
+      description:
+        "From custom bathroom upgrades to full-scale new home plumbing layouts, we provide precision rough-ins and final fixture installs.",
     },
     {
       title: "Gas Piping Services",
       slug: "gas-piping",
-      description: "Expert plumbing services tailored to your needs.",
+      description:
+        "Certified gas line installation and repair for stoves, fireplaces, and outdoor grills. Safety-first piping solutions you can trust.",
     },
     {
       title: "Water Filtration Systems",
       slug: "water-filtration",
-      description: "Expert plumbing services tailored to your needs.",
+      description:
+        "Hard water is a local reality. We install high-efficiency softeners and carbon filtration to protect your appliances and skin.",
     },
     {
       title: "Sump Pump Services",
       slug: "sump-pump-services",
-      description: "Expert plumbing services tailored to your needs.",
+      description:
+        "Don't risk a flooded basement. We offer primary pump replacement and battery backup systems for total peace of mind during storms.",
     },
     {
       title: "Water Heater Services",
       slug: "water-heater-services",
-      description: "Expert plumbing services tailored to your needs.",
+      description:
+        "Fast repair and installation for tank and tankless water heaters. We ensure your home has reliable hot water when you need it most.",
     },
   ];
 
@@ -132,6 +137,19 @@ export default function ServicesPage() {
     },
     {
       "@context": "https://schema.org",
+      "@type": "OfferCatalog",
+      name: "Plumbing Services",
+      itemListElement: services.map((s) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: s.title,
+        },
+        url: buildUrl(`/services/${s.slug}`),
+      })),
+    },
+    {
+      "@context": "https://schema.org",
       "@type": "ItemList",
       name: "Plumbing Services",
       itemListOrder: "https://schema.org/ItemListOrderAscending",
@@ -142,6 +160,31 @@ export default function ServicesPage() {
         name: s.title,
         url: buildUrl(`/services/${s.slug}`),
       })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "PlumbingService",
+      name: SITE.name,
+      image: buildUrl("/og-image.png"),
+      telePhone: SITE.phone,
+      url: SITE.domain,
+      priceRange: "$$", // Very helpful for Google's local pack
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: "43.0058", // Example for Jefferson, WI
+        longitude: "-88.8076",
+      },
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Farmington Rd", // Example address
+        addressLocality: "Jefferson",
+        addressRegion: "WI",
+        postalCode: "53549",
+        addressCountry: "US",
+      },
+      serviceType: services.map((s) => s.title),
+
+      areaServed: serviceAreas.map((area) => area.name),
     },
     {
       "@context": "https://schema.org",

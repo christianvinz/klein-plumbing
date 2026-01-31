@@ -1,5 +1,13 @@
 import Link from "next/link";
-import { SITE } from "@/lib/seo-utils";
+import { buildUrl, SITE } from "@/lib/seo-utils";
+import { Metadata } from "next";
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `Plumbing Service Areas | Jefferson & Waukesha Counties | ${SITE.name}`,
+    description: `Klein Plumbing provides rapid-response plumbing to a 30-mile radius of Helenville, including Jefferson, Watertown, Oconomowoc, and Waukesha.`,
+    alternates: { canonical: buildUrl("/service-areas") },
+  };
+}
 
 export default function ServiceAreasPage() {
   const primaryHubs = [

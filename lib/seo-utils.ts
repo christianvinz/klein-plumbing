@@ -252,7 +252,8 @@ export const services: Service[] = [
     name: "Sump Pump Services",
     shortName: "Sump Pumps",
     iconKey: "pump",
-    description: "Keep your basement dry with reliable sump pump repair.",
+    description:
+      "In the Jefferson County area, the spring thaw can overwhelm standard pumps. We specialize in backup systems that keep basements dry during the heavy Wisconsin melt.",
   },
   {
     slug: "water-heater-services",
@@ -283,13 +284,14 @@ export function buildUrl(path: string): string {
 }
 
 function titleForArea(area: ServiceArea): string {
-  return `Plumber in ${area.name}, ${area.state} | Fast Local Service – Call ${SITE.phone}`;
+  // Target: City + Plumber + Business Name
+  return `${area.name} Plumber | Reliable Local Service | ${SITE.name}`;
 }
 
 function titleForServiceArea(area: ServiceArea, service: Service): string {
-  return `${service.name} in ${area.name}, ${area.state} | Call ${SITE.phone}`;
+  // Target: Service + City + WI
+  return `${service.shortName} ${area.name}, WI | Expert Local Plumbing | ${SITE.name}`;
 }
-
 function descriptionForArea(area: ServiceArea): string {
   const counties = area.counties.join(" and ");
   return `Trusted plumbing services in ${area.name}, Wisconsin. ${area.description}. Local, licensed plumber serving ${counties}. Call ${SITE.phone} for fast service.`;
@@ -442,27 +444,31 @@ export function generateServiceSchema(
     "@context": "https://schema.org",
     "@type": "Service",
     name: `${service.name} in ${area.name}, ${area.state}`,
-    serviceType: service.name,
+    description: service.description,
     provider: {
       "@type": "PlumbingBusiness",
       "@id": `${SITE.domain}#plumbingbusiness`,
-      name: SITE.name,
-      telephone: SITE.phone,
-      url: buildUrl("/"),
     },
     areaServed: {
       "@type": "City",
       name: area.name,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: area.name,
-        addressRegion: area.state,
-        postalCode: area.zip,
-        addressCountry: "US",
-      },
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Plumbing Services",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: service.name,
+          },
+          priceCurrency: "USD",
+          price: "0", // "Contact for quote" signal
+        },
+      ],
     },
     url: buildUrl(`/service-areas/${area.slug}/${service.slug}`),
-    description: service.description,
   };
 }
 
