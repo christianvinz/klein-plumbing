@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
 
 // This is the old, simple Grid.tsx, with ONLY the testimonial carousel
@@ -9,11 +10,11 @@ const Grid = ({ blok }: any) => {
   const [canScroll, setCanScroll] = useState(false);
 
   // Check for testimonials
-  const hasTestimonials = blok.columns?.some((col: any) => 
+  const hasTestimonials = blok.columns?.some((col: any) =>
     col.component === "testimonial" || col.component === "Testimonial"
   );
-  
-  const allItems = blok.columns || [];
+
+  const allItems = useMemo(() => blok.columns || [], [blok.columns]);
 
   // Carousel scrolling logic (unchanged)
   useEffect(() => {

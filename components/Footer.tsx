@@ -126,19 +126,19 @@ const Footer = () => {
                   Areas
                 </Link>
                 <Link
-                  href="/reviews"
+                  href="/#reviews"
                   className="hover:text-white transition-colors"
                 >
                   Reviews
                 </Link>
                 <Link
-                  href="/faq"
+                  href="/#faq"
                   className="hover:text-white transition-colors"
                 >
                   FAQ
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/#contact"
                   className="hover:text-white transition-colors"
                 >
                   Contact

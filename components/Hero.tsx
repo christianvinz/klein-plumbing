@@ -7,17 +7,8 @@ const Hero = ({ blok }: any) => {
       id="home"
       {...storyblokEditable(blok)}
       /* Reduced pb-24 to pb-12 to bring the button and badges closer */
-      className="relative w-full bg-[#333333] pt-12 md:pt-20 pb-12 md:pb-16 px-6 text-center text-white overflow-hidden"
+      className="relative w-full pt-12 md:pt-20 pb-12 md:pb-16 px-6 text-center text-white overflow-hidden"
     >
-      {/* Background Image Layer */}
-      {blok.background_image?.filename && (
-        <div
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${blok.background_image.filename})` }}
-        >
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
-      )}
 
       {/* Content Layer */}
       <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center">

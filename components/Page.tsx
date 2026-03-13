@@ -67,9 +67,22 @@ const Page = ({ blok }: PageProps) => {
           const [heroBlock, badgeBlock] = group.blocks;
 
           return (
-            <section key={group._uid} className="bg-[#333333]">
-              <StoryblokServerComponent blok={heroBlock} />
-              <StoryblokServerComponent blok={badgeBlock} />
+            <section key={group._uid} className="relative bg-[#333333] overflow-hidden -mt-[var(--nav-h)] md:-mt-[var(--nav-h-md)] pt-[var(--nav-h)] md:pt-[var(--nav-h-md)]">
+              {/* Background Image Layer */}
+              <div
+                className="absolute -inset-4 z-0 bg-no-repeat scale-110 -rotate-2"
+                style={{
+                  backgroundImage: `url(/kleinplumbing.jpeg)`,
+                  backgroundSize: '1920px auto',
+                  backgroundPosition: '30% 20%',
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-black/95 via-black/70 to-black/85 backdrop-blur-[0.75px]" />
+              </div>
+              <div className="relative z-10">
+                <StoryblokServerComponent blok={heroBlock} />
+                <StoryblokServerComponent blok={badgeBlock} />
+              </div>
             </section>
           );
         }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useRef, useState, useEffect, useMemo } from "react";
 import { storyblokEditable } from "@storyblok/react";
 import Image from "next/image";
 
@@ -9,7 +10,7 @@ const JobLog = ({ blok }: any) => {
   const [canScroll, setCanScroll] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  const entries = blok.entries || [];
+  const entries = useMemo(() => blok.entries || [], [blok.entries]);
 
   // This useEffect (unchanged)
   useEffect(() => {

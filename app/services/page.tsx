@@ -82,14 +82,6 @@ export default function ServicesPage() {
   const pageUrl = buildUrl("/services");
   const telHref = `tel:${SITE.phone.replace(/[^0-9]/g, "")}`;
 
-  // Use primary areas first (for internal links)
-  const areasSorted = [...serviceAreas].sort((a, b) => {
-    const ap = a.isPrimary ? 1 : 0;
-    const bp = b.isPrimary ? 1 : 0;
-    if (bp !== ap) return bp - ap;
-    return a.name.localeCompare(b.name);
-  });
-
   // Visible FAQs (and FAQPage schema)
   const faqs = [
     {

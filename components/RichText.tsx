@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { storyblokEditable } from "@storyblok/react";
 import { render, NODE_TABLE } from "storyblok-rich-text-react-renderer";
 

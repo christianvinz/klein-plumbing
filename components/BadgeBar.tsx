@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
 
 const BadgeBar = ({ blok }: any) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const [canScroll, setCanScroll] = useState(false);
-  const allItems = blok.columns || [];
+  const allItems = useMemo(() => blok.columns || [], [blok.columns]);
 
   useEffect(() => {
     const checkScrollable = () => {

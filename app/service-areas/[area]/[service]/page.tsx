@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 
 import {
   SITE,
-  services,
   serviceAreas,
   getArea,
   getService,
