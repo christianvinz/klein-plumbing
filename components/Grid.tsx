@@ -62,7 +62,7 @@ const Grid = ({ blok }: any) => {
   return (
     <div 
       {...storyblokEditable(blok)} 
-      id={blok.section_id}
+      id={blok.section_id || (hasTestimonials ? "reviews" : undefined)}
       className="container mx-auto px-4 py-12 scroll-mt-24"
     >
       {/* 1. Testimonial Carousel (unchanged) */}

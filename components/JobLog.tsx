@@ -75,7 +75,7 @@ const JobLog = ({ blok }: any) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      id={blok.section_id}
+      id={blok.section_id || "joblog"}
       className="py-16 bg-transparent border-t-4 border-[#333333] scroll-mt-24"
     >
       <div className="container mx-auto px-4">

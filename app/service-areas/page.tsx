@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { buildUrl, SITE } from "@/lib/seo-utils";
+import { buildUrl, SITE, serviceAreas } from "@/lib/seo-utils";
 import { Metadata } from "next";
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -10,33 +10,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function ServiceAreasPage() {
-  const primaryHubs = [
-    "Jefferson",
-    "Fort Atkinson",
-    "Watertown",
-    "Oconomowoc",
-    "Waukesha",
-    "Whitewater",
-    "Lake Mills",
-    "Delafield",
-  ];
-
-  const surroundingCommunities = [
-    "Johnson Creek",
-    "Cambridge",
-    "Sullivan",
-    "Helenville",
-    "Pewaukee",
-    "Waterloo",
-    "Palmyra",
-    "Rome",
-    "Ixonia",
-    "Concord",
-    "Dousman",
-    "Ashippun",
-    "Lebanon",
-    "Hartland",
-  ];
+  const primaryHubs = serviceAreas.filter((a) => a.isPrimary);
+  const surroundingCommunities = serviceAreas.filter((a) => !a.isPrimary);
 
   const telHref = `tel:${SITE.phone.replace(/[^0-9]/g, "")}`;
 
@@ -120,14 +95,14 @@ export default function ServiceAreasPage() {
                 <div className="h-1.5 w-16 bg-[#CEDC00] mb-10"></div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                  {primaryHubs.map((city) => (
+                  {primaryHubs.map((area) => (
                     <Link
-                      key={city}
-                      href={`/service-areas/${city.toLowerCase().replace(/\s+/g, "-")}`}
+                      key={area.slug}
+                      href={`/service-areas/${area.slug}`}
                       className="group flex items-center justify-between bg-white/10 px-5 py-4 rounded-xl border border-gray-100 hover:border-[#333333] hover:shadow-lg transition-all"
                     >
                       <span className="font-bold text-[#333333] group-hover:text-[#CEDC00] transition-colors">
-                        {city}
+                        {area.name}
                       </span>
                       <span className="text-gray-300 group-hover:text-[#333333] transition-colors">
                         →
@@ -143,13 +118,13 @@ export default function ServiceAreasPage() {
                   Surrounding Communities
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {surroundingCommunities.map((town) => (
+                  {surroundingCommunities.map((area) => (
                     <Link
-                      key={town}
-                      href={`/service-areas/${town.toLowerCase().replace(/\s+/g, "-")}`}
+                      key={area.slug}
+                      href={`/service-areas/${area.slug}`}
                       className="bg-white/10 px-4 py-2 rounded-lg border border-gray-100 text-[#333333] font-semibold text-xs hover:bg-[#CEDC00] hover:border-[#CEDC00] transition-all"
                     >
-                      {town}
+                      {area.name}
                     </Link>
                   ))}
                 </div>
