@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { storyblokEditable } from "@storyblok/react";
-import {
-  ReactCompareSlider,
-  ReactCompareSliderImage,
-} from "react-compare-slider";
+import { ReactCompareSliderImage } from "react-compare-slider";
+
+const ReactCompareSlider = dynamic(
+  () => import("react-compare-slider").then((m) => m.ReactCompareSlider),
+  { ssr: false }
+);
 
 const BeforeAfterCarousel = ({ blok }: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
