@@ -43,7 +43,7 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              href="/#services"
+              href="/services"
               className="text-white hover:text-[#CEDC00] font-medium uppercase text-sm tracking-wide"
             >
               Services
@@ -102,28 +102,22 @@ const Navbar = () => {
       {/* MOBILE MENU - Fixed Logic */}
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-[#333333] border-t border-white/10 p-6 lg:hidden flex flex-col gap-6 shadow-2xl animate-in fade-in slide-in-from-top-4">
-          {[
-            "Home",
-            "Services",
-            "Areas",
-            "Reviews",
-            "FAQ",
-            "Job Log",
-            "Contact",
-          ].map((item) => (
+          {([
+            { label: "Home", href: "/" },
+            { label: "Services", href: "/services" },
+            { label: "Areas", href: "/service-areas" },
+            { label: "Reviews", href: "/#reviews" },
+            { label: "FAQ", href: "/#faq" },
+            { label: "Job Log", href: "/#joblog" },
+            { label: "Contact", href: "/#contact" },
+          ] as { label: string; href: string }[]).map((item) => (
             <Link
-              key={item}
-              href={
-                item === "Home"
-                  ? "/"
-                  : item === "Areas"
-                    ? "/service-areas"
-                    : `/#${item.toLowerCase().replace(" ", "")}`
-              }
+              key={item.label}
+              href={item.href}
               className="text-white text-lg font-bold uppercase border-b border-white/5 pb-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              {item}
+              {item.label}
             </Link>
           ))}
           <div className="flex flex-col gap-4 mt-2">

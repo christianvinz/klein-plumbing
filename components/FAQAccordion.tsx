@@ -53,7 +53,7 @@ const FAQAccordion = ({ blok }: FAQAccordionProps) => {
   return (
     <section
       {...storyblokEditable(blok)}
-      id={blok.section_id}
+      id={blok.section_id || "faq"}
       className="py-12 md:py-20 bg-white/10 scroll-mt-24"
     >
       <Script

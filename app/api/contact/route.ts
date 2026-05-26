@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend with the API key from environment variables
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Klein Plumbing's Business ID in Local Compass
 const KLEIN_BUSINESS_ID = '59fb3928-14a3-4bba-a304-e06a31776ca7';
 const LOCAL_COMPASS_URL = 'https://local.brinleyatlas.com/api/webhooks/form-submission';
@@ -57,15 +54,35 @@ async function sendToLocalCompass(data: {
 
 export async function POST(request: Request) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const CONTACT_EMAIL = process.env.CONTACT_EMAIL;
+    if (!CONTACT_EMAIL) {
+      console.error('CONTACT_EMAIL environment variable is not configured');
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    }
+
     const body = await request.json();
     const { name, email, phone, message } = body;
 
     // Server-side validation
     if (!name || !phone) {
       return NextResponse.json(
-        { error: 'Missing required fields: name and phone are required' }, 
+        { error: 'Missing required fields: name and phone are required' },
         { status: 400 }
       );
+    }
+
+    if (typeof name !== 'string' || name.length > 200) {
+      return NextResponse.json({ error: 'Invalid name' }, { status: 400 });
+    }
+    if (typeof phone !== 'string' || phone.length > 30) {
+      return NextResponse.json({ error: 'Invalid phone' }, { status: 400 });
+    }
+    if (email !== undefined && (typeof email !== 'string' || email.length > 254)) {
+      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
+    }
+    if (message !== undefined && (typeof message !== 'string' || message.length > 5000)) {
+      return NextResponse.json({ error: 'Message too long' }, { status: 400 });
     }
 
     // Check for disposable email (if provided)
@@ -103,9 +120,9 @@ export async function POST(request: Request) {
     let notificationSent = false;
     try {
       await resend.emails.send({
-        from: 'Klein Plumbing Website <website@klein.plumbing>', 
-        to: [process.env.CONTACT_EMAIL as string],
-        replyTo: email,
+        from: 'Klein Plumbing Website <website@klein.plumbing>',
+        to: [CONTACT_EMAIL],
+        ...(email ? { replyTo: email } : {}),
         subject: `NEW LEAD: ${name} (via Website Form)`,
         text: `
 Name: ${name}

@@ -304,7 +304,7 @@ function descriptionForServiceArea(
   return `Need ${service.name.toLowerCase()} in ${area.name}, WI? ${service.description}. Call ${SITE.phone} for fast, reliable local service.`;
 }
 
-const DEFAULT_OG_IMAGE = buildUrl("/og.jpg");
+const DEFAULT_OG_IMAGE = buildUrl("/og-image.png");
 
 /** -----------------------
  * Metadata
